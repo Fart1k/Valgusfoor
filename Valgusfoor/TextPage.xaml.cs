@@ -91,4 +91,30 @@ public partial class TextPage : ContentPage
             Navigation.PushAsync(new FigurePage());
         }
     }
+
+    private async void Btn_Clicked(object? sender, EventArgs e)
+    {
+        IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+
+        SpeechOptions options = new SpeechOptions()
+        {
+            Pitch = 1.5f,
+            Volume = 0.75f,
+            Locale = locales.FirstOrDefault()
+        };
+        var text = editor.Text;
+        if (string.IsNullOrEmpty(text))
+        {
+            await DisplayAlert("Viga", "Palun sisesta tekst", "OK");
+            return;
+        }
+        try
+        {
+            await TextToSpeech.SpeakAsync(text, options);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("TTS viga", ex.Message, "OK");
+        }
+    }
 }
