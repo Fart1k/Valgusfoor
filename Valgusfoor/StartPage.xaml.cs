@@ -8,13 +8,15 @@ public partial class StartPage : ContentPage
     ScrollView sv;
     public List<ContentPage> Lehed = new List<ContentPage>()
     {
-        new TextPage(), 
-        new FigurePage()
+        new TextPage(),
+        new FigurePage(),
+        new ValgusfoorPage()
     };
     public List<string> LeheNimed = new List<string>()
     {
         "Tekst",
-        "Kujund"
+        "Kujund",
+        "Valgusfoor"
     };
 
     public StartPage()
