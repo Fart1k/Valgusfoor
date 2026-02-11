@@ -31,7 +31,7 @@ public partial class StartPage : ContentPage
             {
                 Text = LeheNimed[i],
                 FontSize = 36,
-                FontFamily = "Luffio",
+                FontFamily = "Socafe",
                 BackgroundColor = Colors.LightGray,
                 TextColor = Colors.Black,
                 CornerRadius = 10,

@@ -9,7 +9,7 @@
     <Shell.TitleView>
         <Label
             Text="Näidis"
-            FontFamily="Socafe 400"
+            FontFamily="Socafe"
             FontSize="Title"
             TextColor="DarkGoldenrod"
             VerticalTextAlignment="Center"

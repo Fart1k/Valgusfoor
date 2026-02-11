@@ -13,6 +13,7 @@ namespace Valgusfoor
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("Socare 400.otf", "Socafe");
                 });
 
 #if DEBUG
