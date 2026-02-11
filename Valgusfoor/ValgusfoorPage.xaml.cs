@@ -6,6 +6,8 @@ namespace Valgusfoor;
 public partial class ValgusfoorPage : ContentPage
 {
 	Ellipse punane, roheline, kollane;
+    Label statusLabel;
+    bool status = false; // false tähendab, et valgusfoor on väljas.
 
     HorizontalStackLayout hsl;
     List<string> nupud = new List<string>()
@@ -19,6 +21,14 @@ public partial class ValgusfoorPage : ContentPage
 
     public ValgusfoorPage()
 	{
+        statusLabel = new Label
+        {
+            Text = "Vali valgus!",
+            FontFamily = "Socafe",
+            FontSize = 28,
+            TextColor = Colors.Black,
+        };
+
         punane = new Ellipse
         {
             WidthRequest = 200,
