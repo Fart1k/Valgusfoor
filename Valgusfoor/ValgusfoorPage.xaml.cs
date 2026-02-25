@@ -24,9 +24,10 @@ public partial class ValgusfoorPage : ContentPage
         statusLabel = new Label
         {
             Text = "Vali valgus!",
-            FontFamily = "Socafe",
             FontSize = 28,
             TextColor = Colors.Black,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Start
         };
 
         punane = new Ellipse
@@ -76,7 +77,7 @@ public partial class ValgusfoorPage : ContentPage
                 ZIndex = j
             };
             hsl.Add(nupp);
-            nupp.Clicked += Liikumine;
+            nupp.Clicked += StatusMuutmine;
         }
         vsl = new VerticalStackLayout
         {
@@ -84,6 +85,7 @@ public partial class ValgusfoorPage : ContentPage
             Spacing = 15,
             Children =
             {
+                statusLabel,
                 punane,
                 kollane,
                 roheline,
@@ -94,16 +96,24 @@ public partial class ValgusfoorPage : ContentPage
         Content = vsl;
     }
 
-    private void Liikumine(object? sender, EventArgs e)
+    private void StatusMuutmine(object? sender, EventArgs e)
     {
         Button nupp = sender as Button;
         if (nupp.ZIndex == 0)
         {
-            Navigation.PopAsync();
+            status = true;
+            statusLabel.Text = "Valgusfoor on sisse lülitatud";
+            punane.Fill = new SolidColorBrush(Colors.Red);
+            kollane.Fill = new SolidColorBrush(Colors.Yellow);
+            roheline.Fill = new SolidColorBrush(Colors.Green);
         }
         else if (nupp.ZIndex == 1)
         {
-            Navigation.PopToRootAsync();
+            status = false;
+            statusLabel.Text = "Valgusfoor on välja lülitatud";
+            punane.Fill = new SolidColorBrush(Colors.Gray);
+            kollane.Fill = new SolidColorBrush(Colors.Gray);
+            roheline.Fill = new SolidColorBrush(Colors.Gray);
         }
     }
 
