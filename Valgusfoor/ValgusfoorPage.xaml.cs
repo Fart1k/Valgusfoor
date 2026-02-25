@@ -1,6 +1,7 @@
 
 using Microsoft.Maui.Controls.Shapes;
 using System.Net.WebSockets;
+using System.Threading.Tasks;
 
 namespace Valgusfoor;
 
@@ -11,12 +12,16 @@ public partial class ValgusfoorPage : ContentPage
     Button punaneBtn, kollaneBtn, rohelineBtn;
     Grid punaneEllipseContainer, kollaneEllipseContainer, rohelineEllipseContainer;
     bool status = false; // false tähendab, et valgusfoor on väljas.
+    bool autoMode = false;
+    CancellationTokenSource autoToken;
+    int currentColorIndex = 0;
 
     HorizontalStackLayout hsl;
     List<string> nupud = new List<string>()
     {
         "Sisse",
-        "Välja"
+        "Välja",
+        "Automaatreþiim"
     };
     VerticalStackLayout vsl;
 
@@ -242,6 +247,7 @@ public partial class ValgusfoorPage : ContentPage
         if (nupp.ZIndex == 0)
         {
             status = true;
+            autoToken?.Cancel();
             statusLabel.Text = "Valgusfoor on sisse lülitatud";
             punane.Fill = Colors.Red;
             kollane.Fill = Colors.Yellow;
@@ -253,6 +259,7 @@ public partial class ValgusfoorPage : ContentPage
         else if (nupp.ZIndex == 1)
         {
             status = false;
+            autoToken?.Cancel();
             statusLabel.Text = "Valgusfoor on välja lülitatud";
             punane.Fill = Colors.Gray;
             kollane.Fill = Colors.Gray;
@@ -260,6 +267,54 @@ public partial class ValgusfoorPage : ContentPage
             punaneBtn.IsEnabled = status;
             kollaneBtn.IsEnabled = status;
             rohelineBtn.IsEnabled = status;
+        }
+        else if (nupp.ZIndex == 2)
+        {
+            if (!status)
+            {
+                statusLabel.Text = "Lülita enne sisse";
+                return;
+            }
+
+            statusLabel.Text = "Automaatreþiim töötab";
+            autoMode = true;
+
+            autoToken = new CancellationTokenSource();
+
+            Task.Run(async () =>
+            {
+                while (!autoToken.Token.IsCancellationRequested)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        punane.Fill = Colors.Gray;
+                        kollane.Fill = Colors.Gray;
+                        roheline.Fill = Colors.Gray;
+                        switch (currentColorIndex)
+                        {
+                            case 0:
+                                punane.Fill = Colors.Red;
+                                break;
+
+                            case 1:
+                                kollane.Fill = Colors.Yellow;
+                                break;
+
+                            case 2:
+                                roheline.Fill = Colors.Green;
+                                break;
+                        }
+
+                        currentColorIndex++;
+
+                        if (currentColorIndex == 3)
+                        {
+                            currentColorIndex = 0;
+                        }
+                    });
+                    await Task.Delay(2000);
+                }
+            });
         }
     }
 }
